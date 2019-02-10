@@ -1,0 +1,33 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "modules for hw01",
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://tsekenrick:12ab45de768@github.com/nyu-csci-ua-0480-008-spring-2019/tsekenrick-homework01.git"
+  },
+  "author": "tsekenrick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nyu-csci-ua-0480-008-spring-2019/tsekenrick-homework01/issues"
+  },
+  "homepage": "https://github.com/nyu-csci-ua-0480-008-spring-2019/tsekenrick-homework01#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.13.0",
+    "eslint-plugin-mocha": "^5.2.1",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "clear": "^0.1.0",
+    "readline-sync": "^1.4.9",
+    "wcwidth": "^1.0.1"
+  }
+}
