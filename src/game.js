@@ -28,7 +28,7 @@ if(input){
             const letter = readlineSync.question('Choose a column letter to drop your piece in\n> ');
             const movePos = c.getEmptyRowCol(res.board, letter);
             // invalid move
-            if(movePos === null){
+            if(movePos === null || letter === ''){
                 console.log('Oops, that is not a valid move, try again!');
                 continue;
                 // res.board = null;
@@ -137,7 +137,7 @@ else {
             const letter = readlineSync.question('Choose a column letter to drop your piece in\n> ');
             const movePos = c.getEmptyRowCol(res.board, letter);
             // invalid move
-            if(movePos === null){
+            if(movePos === null || letter === ''){
                 console.log('Oops, that is not a valid move, try again!');
                 continue;
             } else {

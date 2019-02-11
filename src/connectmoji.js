@@ -51,20 +51,24 @@ function setCells(board, ...moves) {
 
 function boardToString(board) {
     let retStr = '';
+    let maxWidth = 3;
+    for(let curRow = 0; curRow < board.rows; curRow++) { 
+        for(let curCol = 0; curCol < board.cols; curCol++) {
+            const curCell = board.data[rowColToIndex(board, curRow, curCol)];
+            if(wcwidth(curCell) + 2 > maxWidth) { maxWidth = wcwidth(curCell) + 2; }
+        }
+    }
+    
     for(let curRow = 0; curRow < board.rows; curRow++) { 
         retStr += '|';
         for(let curCol = 0; curCol < board.cols; curCol++) {
             const curCell = board.data[rowColToIndex(board, curRow, curCol)];
             if(curCell === null) {
-                retStr += '    |';
+                retStr += '|'.padStart(maxWidth + 1, ' ');
             }
             else {
                 let toPrint = ` ${curCell}`;
-                const toPrintLen = 1 + wcwidth(curCell); // defines 'actual' width
-                const toAppend = Math.max(0, 4 - toPrintLen);
-                for(let i = 0; i < toAppend; i++) {
-                    toPrint += ' ';
-                }
+                toPrint = toPrint.padEnd(maxWidth, ' ');
                 toPrint += '|';
                 retStr += toPrint;
             }
@@ -76,15 +80,16 @@ function boardToString(board) {
     retStr += '|';
     for(let i = 0; i < board.cols; i++) {
         if(i !== board.cols - 1) {
-            retStr += '----+';
+            retStr += '+'.padStart(maxWidth + 1, '-');
         }
         else {
-            retStr += '----|';
+            retStr += '|'.padStart(maxWidth + 1, '-');
         }
     }
     retStr += '\n|';
     for(let i = 0; i < board.cols; i++) {
-        retStr += ` ${String.fromCharCode(65 + i)}  |`;
+        retStr += ` ${String.fromCharCode(65 + i)}`.padEnd(maxWidth, ' ');
+        retStr += '|';
     }
 
     return retStr;
