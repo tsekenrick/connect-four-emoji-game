@@ -2,8 +2,7 @@
 // ...don't forget to export functions!
 
 // grabbing required modules
-const readlineSync = require('readline-sync');
-const clear = require('clear');
+
 const wcwidth = require('wcwidth');
 
 function generateBoard(rows, cols, fill=null) {
@@ -123,9 +122,9 @@ function getEmptyRowCol(board, letter, empty=null) {
         }
     }
 
-    if(highestOccupied === col) {
-        return null;
-    } else if (highestOccupied === -1) {
+    // if(highestOccupied === col) {
+    //     return null;
+    if (highestOccupied === -1) {
         return indexToRowCol(board, rowColToIndex(board, board.rows -1, col));
     } else {
         return highestOccupied - board.cols >= 0 ? indexToRowCol(board, highestOccupied - board.cols) : null; 
@@ -282,7 +281,87 @@ function hasConsecutiveValues(board, row, col, n) {
 }
 
 function autoplay(board, s, numConsecutive) {
-    let res = {};
+    const res = {};
+    const arrS = [...s];
+    const p1 = arrS[0];
+    const p2 = arrS[1];
+    res.board = board;
+    res.pieces = [p1, p2];
+    const commands = arrS.slice(2);
+    let move = 1;
+    let hasWon = false;
+    for(const command of commands) {
+        // process player 1 move
+        if(move % 2 === 1){
+            
+            // 'drop' in a piece if game is not already won
+            const movePos = getEmptyRowCol(board, command);
+            if(hasWon) {
+                res.error = {
+                    "col": command,
+                    "num": move,
+                    "val": p1
+                };
+                res.lastPieceMoved = p1;
+                break;
+            } else {
+                if(movePos === null){
+                    res.board = null;
+                    res.error = {
+                        "col": command,
+                        "num": move,
+                        "val": p1
+                    };
+                } else {
+                    board = setCell(board, movePos.row, movePos.col, p1);
+                }
+                res.lastPieceMoved = p1;
+            }
+
+            // check for win
+            if(movePos !== null && hasConsecutiveValues(board, movePos.row, movePos.col, numConsecutive)){
+                hasWon = true;
+                res.winner = p1;
+            }
+            move++;       
+
+        // process player 2 move
+        } else {
+            // 'drop' in a piece if game is not already won
+            const movePos = getEmptyRowCol(board, command);
+            if(hasWon) {
+                res.error = {
+                    "col": command,
+                    "num": move,
+                    "val": p2
+                };
+                res.lastPieceMoved = p2;
+                break;
+            } else {
+                if(movePos === null){
+                    res.board = null;
+                    res.error = {
+                        "col": command,
+                        "num": move,
+                        "val": p1
+                    };
+                } else {
+                    board = setCell(board, movePos.row, movePos.col, p2);
+                }
+                
+                res.lastPieceMoved = p2;
+            }
+
+            // check for win
+            if(movePos !== null && hasConsecutiveValues(board, movePos.row, movePos.col, numConsecutive)){
+                hasWon = true;
+                res.winner = p2;
+            }
+            move++;            
+        }
+    }
+    if(res.hasOwnProperty('error')){ delete res.winner; }
+    res.board = res.hasOwnProperty('error') ? null : board;
     return res;
 }
 

@@ -118,11 +118,11 @@ describe('connectmoji', function() {
             let board = c.generateBoard(6, 7);
             board = c.setCells(
               board, 
-              {row: 0, col: 1, val: '❤️' },
+              {row: 0, col: 1, val: '🦄' },
               {row: 0, col: 2, val: 'X'},
               {row: 1, col: 0, val: '😄'}
             );
-            const expected = `|    | ❤️ | X  |    |    |    |    |
+            const expected = `|    | 🦄 | X  |    |    |    |    |
 | 😄 |    |    |    |    |    |    |
 |    |    |    |    |    |    |    |
 |    |    |    |    |    |    |    |
