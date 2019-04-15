@@ -1,1 +1,2 @@
-Connectmoji - A simple connect-four node application.
+# Connectmoji
+## A simple connect-four node application.
